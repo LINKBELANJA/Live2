@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Live Streaming Setup</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background-color: #f9f9f9;
+      padding: 20px;
+    }
+    #container {
+      max-width: 500px;
+      margin: 0 auto;
+    }
+    input[type="text"], input[type="file"] {
+      width: 80%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 2px solid #007bff;
+      border-radius: 5px;
+    }
+    textarea {
+      width: 80%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 2px solid #007bff;
+      border-radius: 5px;
+    }
+    button {
+      display: inline-block;
+      margin: 10px;
+      padding: 15px 20px;
+      font-size: 16px;
+      color: white;
+      background-color: #007bff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <div id="container">
+    <h1>Live Streaming Setup</h1>
+
+    <div id="streamSection">
+      <input type="text" id="youtubeLink" placeholder="Tempelkan Link YouTube Diatas">
+      <input type="text" id="title" placeholder="Masukkan Judul Live">
+      <textarea id="description" placeholder="Masukkan Deskripsi Live"></textarea>
+      <input type="file" id="logo" accept="image/png">
+      <br>
+      <select id="destination">
+        <option value="rtmp_youtube">YouTube</option>
+        <option value="rtmp_instagram">Instagram</option>
+        <option value="rtmp_tiktok">TikTok</option>
+        <option value="rtmp_all">YouTube, Instagram, & TikTok</option>
+      </select>
+      <br>
+      <button id="startLiveButton">Start Live Streaming</button>
+    </div>
+  </div>
+
+  <script>
+    function startLiveStreaming() {
+      var youtubeLink = document.getElementById('youtubeLink').value;
+      var title = document.getElementById('title').value;
+      var description = document.getElementById('description').value;
+      var logo = document.getElementById('logo').files[0];
+      var destination = document.getElementById('destination').value;
+      
+      // Handle live streaming logic based on RTMP destination
+      if (destination === "rtmp_youtube") {
+        startLiveStreamingToRTMP("YouTube", youtubeLink, title, description, logo);
+      } else if (destination === "rtmp_instagram") {
+        startLiveStreamingToRTMP("Instagram", youtubeLink, title, description, logo);
+      } else if (destination === "rtmp_tiktok") {
+        startLiveStreamingToRTMP("TikTok", youtubeLink, title, description, logo);
+      } else if (destination === "rtmp_all") {
+        // Streaming to all platforms at once
+        startLiveStreamingToRTMP("YouTube", youtubeLink, title, description, logo);
+        startLiveStreamingToRTMP("Instagram", youtubeLink, title, description, logo);
+        startLiveStreamingToRTMP("TikTok", youtubeLink, title, description, logo);
+      }
+    }
+
+    function startLiveStreamingToRTMP(platform, youtubeLink, title, description, logo) {
+      // Example RTMP URL for each platform
+      var rtmpUrls = {
+        "YouTube": "rtmp://a.rtmp.youtube.com/live2",
+        "Instagram": "rtmp://live.instagram.com:1935/rtmp/",
+        "TikTok": "rtmp://live.tiktok.com/rtmp/"
+      };
+
+      var rtmpUrl = rtmpUrls[platform];
+      
+      console.log(`Starting live streaming to ${platform}`);
+      console.log(`RTMP URL: ${rtmpUrl}`);
+      console.log(`YouTube Link: ${youtubeLink}`);
+      console.log(`Title: ${title}`);
+      console.log(`Description: ${description}`);
+
+      // For simplicity, we're simulating a successful stream
+      alert(`Live Streaming to ${platform} Started!`);
+    }
+
+    document.getElementById("startLiveButton").addEventListener("click", startLiveStreaming);
+  </script>
+</body>
+</html>
